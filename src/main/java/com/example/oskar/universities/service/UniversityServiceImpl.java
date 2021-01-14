@@ -1,11 +1,11 @@
 package com.example.oskar.universities.service;
 
 import com.example.oskar.universities.entity.University;
-import com.example.oskar.universities.error.UniversityNotFoundException;
+import com.example.oskar.universities.exception.UniversityNotFoundException;
 import com.example.oskar.universities.repository.UniversityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,5 +31,21 @@ public class UniversityServiceImpl implements UniversityService{
             throw new UniversityNotFoundException("Could not find university with name: "+name);
 
         return optionalUniversity.get();
+    }
+
+    @Override
+    public void add(University university) {
+        university.setAdditionDate(LocalDateTime.now());
+        universityRepository.insert(university);
+    }
+
+    @Override
+    public void update(University university) {
+        universityRepository.save(university);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        universityRepository.deleteById(id);
     }
 }

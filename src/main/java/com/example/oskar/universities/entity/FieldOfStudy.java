@@ -29,6 +29,4 @@ public class FieldOfStudy {
     @JsonProperty("studentsLimit")
     private Integer studentsLimit;
 
-    @JsonProperty("grade")
-    private Double grade;
 }

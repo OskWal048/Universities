@@ -22,17 +22,17 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public void addStudent(Student student) {
+    public void add(Student student) {
         studentRepository.insert(student);
     }
 
     @Override
-    public void updateStudent(Student student) {
+    public void update(Student student) {
         studentRepository.save(student);
     }
 
     @Override
-    public void deleteStudentById(String id) {
+    public void deleteById(String id) {
         studentRepository.deleteById(id);
     }
 }

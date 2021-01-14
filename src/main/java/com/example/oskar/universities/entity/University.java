@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document(collection = "universities")
@@ -19,7 +19,7 @@ public class University {
     private String id;
 
     @JsonProperty("additionDate")
-    private OffsetDateTime additionDate;
+    private LocalDateTime additionDate;
 
     @JsonProperty("name")
     private String name;
@@ -34,8 +34,8 @@ public class University {
     private String phone;
 
     @JsonProperty("studentsList")
-    private List<Student> studentsList;
+    private List<String> studentsList;
 
     @JsonProperty("fieldsOfStudy")
-    private List<FieldOfStudy> fieldsOfStudy;
+    private List<String> fieldsOfStudy;
 }
