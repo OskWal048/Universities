@@ -24,13 +24,15 @@ public class UniversityServiceImpl implements UniversityService{
     }
 
     @Override
+    public University findById(String id) throws UniversityNotFoundException {
+        Optional<University> optionalUniversity = universityRepository.findById(id);
+        return optionalUniversity.orElseThrow(() -> new UniversityNotFoundException("Could not find university with id: "+id));
+    }
+
+    @Override
     public University findByName(String name) throws UniversityNotFoundException {
         Optional<University> optionalUniversity = universityRepository.findUniversityByName(name);
-
-        if(optionalUniversity.isEmpty())
-            throw new UniversityNotFoundException("Could not find university with name: "+name);
-
-        return optionalUniversity.get();
+        return optionalUniversity.orElseThrow(() -> new UniversityNotFoundException("Could not find university with name: "+name));
     }
 
     @Override

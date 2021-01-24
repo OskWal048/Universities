@@ -3,7 +3,6 @@ package com.example.oskar.universities.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,7 +32,7 @@ public class Student {
     private String phone;
 
     @JsonProperty("age")
-    private Integer age;
+    private int age;
 
     @JsonProperty("gender")
     private Gender gender;
@@ -42,7 +41,7 @@ public class Student {
     private StudentStatus studentStatus;
 
     @JsonProperty("averageGrade")
-    private Double averageGrade;
+    private double averageGrade;
 
     @JsonProperty("fieldsOfStudy")
     private List<String> fieldsOfStudy;
@@ -96,9 +95,4 @@ public class Student {
         }
     }
 
-    @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-    public class Grade{
-        String fieldOfStudy;
-        double grade;
-    }
 }

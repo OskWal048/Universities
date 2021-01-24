@@ -3,7 +3,6 @@ package com.example.oskar.universities.service;
 import com.example.oskar.universities.entity.FieldOfStudy;
 import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.repository.FieldOfStudyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,10 +25,7 @@ public class FieldOfStudyServiceImpl implements FieldOfStudyService{
     @Override
     public FieldOfStudy findById(String id) throws FieldOfStudyNotFoundException {
         Optional<FieldOfStudy> optionalFieldOfStudy = fieldOfStudyRepository.findById(id);
-        if(optionalFieldOfStudy.isEmpty())
-            throw new FieldOfStudyNotFoundException("Could not find field of study with id: "+id);
-
-        return optionalFieldOfStudy.get();
+        return optionalFieldOfStudy.orElseThrow(() -> new FieldOfStudyNotFoundException("Could not find Field Of Study with id: "+id));
     }
 
     @Override

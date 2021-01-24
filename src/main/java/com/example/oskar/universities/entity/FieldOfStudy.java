@@ -27,6 +27,6 @@ public class FieldOfStudy {
     private LocalDate startDate;
 
     @JsonProperty("studentsLimit")
-    private Integer studentsLimit;
+    private int studentsLimit;
 
 }
