@@ -7,16 +7,21 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Document(collection = "universities")
 @Getter @Setter @NoArgsConstructor
-public class University {
+public class University implements Serializable {
 
     @Id
     @JsonProperty("id")
     private String id;
+
+    private String uuid = UUID.randomUUID().toString();
 
     @JsonProperty("additionDate")
     private LocalDateTime additionDate;
@@ -38,4 +43,14 @@ public class University {
 
     @JsonProperty("fieldsOfStudy")
     private List<String> fieldsOfStudy;
+
+    public int hashCode(){
+        return Objects.hash(uuid);
+    }
+
+    public boolean equals(Object that){
+        return this == that || that instanceof University && uuid.equals(((University) that).getUuid());
+    }
+
+
 }
