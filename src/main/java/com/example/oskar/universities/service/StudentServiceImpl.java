@@ -13,11 +13,11 @@ import java.util.Optional;
 public class StudentServiceImpl implements StudentService{
 
     private final StudentRepository studentRepository;
-    private final UniversityService universityService;
+//    private final UniversityService universityService;
 
-    public StudentServiceImpl(StudentRepository studentRepository, UniversityService universityService) {
+    public StudentServiceImpl(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
-        this.universityService = universityService;
+//        this.universityService = universityService;
     }
 
     @Override
@@ -49,15 +49,15 @@ public class StudentServiceImpl implements StudentService{
         studentRepository.save(student);
     }
 
-    @Override
-    public void enrollStudentByUniversityId(Student student, String universityId) throws UniversityNotFoundException, StudentNotFoundException {
-        universityService.enrollStudentByUniversityId(universityId, student.getId());
-    }
-
-    @Override
-    public void enrollStudentByUniversityName(Student student, String universityName) {
-
-    }
+//    @Override
+//    public void enrollStudentByUniversityId(Student student, String universityId) throws UniversityNotFoundException, StudentNotFoundException {
+////        universityService.enrollStudentByUniversityId(universityId, student.getId());
+//    }
+//
+//    @Override
+//    public void enrollStudentByUniversityName(Student student, String universityName) throws UniversityNotFoundException, StudentNotFoundException {
+////        universityService.enrollStudentByUniversityName(universityName, student.getId());
+//    }
 
     @Override
     public void deleteById(String id) {

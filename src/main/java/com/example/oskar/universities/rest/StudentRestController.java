@@ -35,9 +35,10 @@ public class StudentRestController {
                        @RequestParam(name="universityName") Optional<String> universityName) throws UniversityNotFoundException, StudentNotFoundException {
         studentService.add(student);
 
-        if(universityId.isPresent())
-            studentService.enrollStudentByUniversityId(student, universityId.get());
-        else universityName.ifPresent(s -> studentService.enrollStudentByUniversityName(student, s));
+//        if(universityId.isPresent())
+//            studentService.enrollStudentByUniversityId(student, universityId.get());
+//        else if(universityName.isPresent())
+//            studentService.enrollStudentByUniversityName(student, universityName.get());
 
         return student;
     }

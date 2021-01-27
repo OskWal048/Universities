@@ -49,6 +49,24 @@ public class Student {
     @JsonProperty("grades")
     private List<Grade> grades;
 
+//    public double getAverageGrade() {
+//
+//        this.setAverageGrade(calculateAverageGrade());
+//
+//        return averageGrade;
+//    }
+//
+//    public void setAverageGrade(double averageGrade){
+//        this.averageGrade = averageGrade;
+//    }
+
+    private double calculateAverageGrade(){
+
+        double avg = grades.stream().mapToDouble(Grade::getGrade).average().orElse(0.0);
+
+        return avg;
+    }
+
     public enum Gender{
         MALE("male"),
         FEMALE("female");

@@ -4,11 +4,12 @@ import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.entity.University;
 import com.example.oskar.universities.exception.StudentNotFoundException;
 import com.example.oskar.universities.exception.UniversityNotFoundException;
+import com.example.oskar.universities.repository.StudentRepository;
 import com.example.oskar.universities.repository.UniversityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,11 +17,11 @@ import java.util.Optional;
 public class UniversityServiceImpl implements UniversityService{
 
     private final UniversityRepository universityRepository;
-    private final StudentService studentService;
+    private final StudentRepository studentRepository;
 
-    public UniversityServiceImpl(UniversityRepository universityRepository, StudentService studentService) {
+    public UniversityServiceImpl(UniversityRepository universityRepository, StudentRepository studentRepository) {
         this.universityRepository = universityRepository;
-        this.studentService = studentService;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -46,6 +47,19 @@ public class UniversityServiceImpl implements UniversityService{
     }
 
     @Override
+    public List<Student> findStudentsFromUniversity(String universityId) throws UniversityNotFoundException {
+        if(!universityRepository.existsById(universityId))
+            throw new UniversityNotFoundException("Could not find university with id: "+universityId);
+
+        List<String> studentIds = universityRepository.findStudentsByUniversityId(universityId).getStudents();
+        List<Student> students = new ArrayList<>();
+        for(String id : studentIds)
+            studentRepository.findById(id).ifPresent(students::add);
+
+        return students;
+    }
+
+    @Override
     public void add(University university) {
         university.setAdditionDate(LocalDateTime.now());
         universityRepository.insert(university);
@@ -61,7 +75,8 @@ public class UniversityServiceImpl implements UniversityService{
         University university = this.findById(universityId);
         List<String> students = university.getStudents();
 
-        studentService.checkIfStudentExists(studentId);
+        if(!studentRepository.existsById(studentId))
+            throw new StudentNotFoundException("Could not find student with id: "+studentId);
 
         students.add(studentId);
     }
@@ -71,7 +86,8 @@ public class UniversityServiceImpl implements UniversityService{
         University university = this.findByName(universityName);
         List<String> students = university.getStudents();
 
-        studentService.checkIfStudentExists(studentId);
+        if(!studentRepository.existsById(studentId))
+            throw new StudentNotFoundException("Could not find student with id: "+studentId);
 
         students.add(studentId);
     }

@@ -1,5 +1,6 @@
 package com.example.oskar.universities.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class University implements Serializable {
     @JsonProperty("id")
     private String id;
 
+    @JsonIgnore
     private String uuid = UUID.randomUUID().toString();
 
     @JsonProperty("additionDate")

@@ -1,5 +1,6 @@
 package com.example.oskar.universities.rest;
 
+import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.entity.University;
 import com.example.oskar.universities.exception.StudentNotFoundException;
 import com.example.oskar.universities.exception.UniversityNotFoundException;
@@ -31,6 +32,11 @@ public class UniversityRestController {
         return universityService.findById(id);
     }
 
+    @GetMapping("/{id}/students")
+    public List<Student> getStudentsFromUniversity(@PathVariable String id) throws UniversityNotFoundException {
+        return universityService.findStudentsFromUniversity(id);
+    }
+
     @PostMapping
     public University addUniversity(@RequestBody University university){
 
@@ -45,7 +51,7 @@ public class UniversityRestController {
         return university;
     }
 
-    @PutMapping
+    @PatchMapping
     public void assignStudent(@RequestParam(name="universityId") String universityId, @RequestParam(name="studentId") String studentId) throws UniversityNotFoundException, StudentNotFoundException {
         universityService.enrollStudentByUniversityId(universityId, studentId);
     }

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-@Service
+//@Service
 public class DataGenerator {
 
     private final UniversityService universityService;

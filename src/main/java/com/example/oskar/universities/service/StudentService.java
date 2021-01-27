@@ -12,7 +12,7 @@ public interface StudentService {
     boolean checkIfStudentExists(String id) throws StudentNotFoundException;
     void add(Student student);
     void update(Student student);
-    void enrollStudentByUniversityId(Student student, String universityId) throws UniversityNotFoundException, StudentNotFoundException;
-    void enrollStudentByUniversityName(Student student, String universityName);
+//    void enrollStudentByUniversityId(Student student, String universityId) throws UniversityNotFoundException, StudentNotFoundException;
+//    void enrollStudentByUniversityName(Student student, String universityName) throws UniversityNotFoundException, StudentNotFoundException;
     void deleteById(String id);
 }
