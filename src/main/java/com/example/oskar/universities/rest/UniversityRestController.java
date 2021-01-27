@@ -1,6 +1,7 @@
 package com.example.oskar.universities.rest;
 
 import com.example.oskar.universities.entity.University;
+import com.example.oskar.universities.exception.StudentNotFoundException;
 import com.example.oskar.universities.exception.UniversityNotFoundException;
 import com.example.oskar.universities.service.UniversityService;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,11 @@ public class UniversityRestController {
     public University updateUniversity(@RequestBody University university){
         universityService.update(university);
         return university;
+    }
+
+    @PutMapping
+    public void assignStudent(@RequestParam(name="universityId") String universityId, @RequestParam(name="studentId") String studentId) throws UniversityNotFoundException, StudentNotFoundException {
+        universityService.enrollStudentByUniversityId(universityId, studentId);
     }
 
 

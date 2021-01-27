@@ -1,8 +1,11 @@
 package com.example.oskar.universities.service;
 
+import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.entity.University;
+import com.example.oskar.universities.exception.StudentNotFoundException;
 import com.example.oskar.universities.exception.UniversityNotFoundException;
 import com.example.oskar.universities.repository.UniversityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,9 +16,11 @@ import java.util.Optional;
 public class UniversityServiceImpl implements UniversityService{
 
     private final UniversityRepository universityRepository;
+    private final StudentService studentService;
 
-    public UniversityServiceImpl(UniversityRepository universityRepository) {
+    public UniversityServiceImpl(UniversityRepository universityRepository, StudentService studentService) {
         this.universityRepository = universityRepository;
+        this.studentService = studentService;
     }
 
     @Override
@@ -49,6 +54,26 @@ public class UniversityServiceImpl implements UniversityService{
     @Override
     public void update(University university) {
         universityRepository.save(university);
+    }
+
+    @Override
+    public void enrollStudentByUniversityId(String universityId, String studentId) throws UniversityNotFoundException, StudentNotFoundException {
+        University university = this.findById(universityId);
+        List<String> students = university.getStudents();
+
+        studentService.checkIfStudentExists(studentId);
+
+        students.add(studentId);
+    }
+
+    @Override
+    public void enrollStudentByUniversityName(String universityName, String studentId) throws UniversityNotFoundException, StudentNotFoundException {
+        University university = this.findByName(universityName);
+        List<String> students = university.getStudents();
+
+        studentService.checkIfStudentExists(studentId);
+
+        students.add(studentId);
     }
 
     @Override

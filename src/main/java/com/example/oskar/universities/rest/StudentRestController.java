@@ -1,12 +1,13 @@
 package com.example.oskar.universities.rest;
 
 import com.example.oskar.universities.entity.Student;
+import com.example.oskar.universities.exception.StudentNotFoundException;
+import com.example.oskar.universities.exception.UniversityNotFoundException;
 import com.example.oskar.universities.service.StudentService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/students")
@@ -21,5 +22,29 @@ public class StudentRestController {
     @GetMapping
     public List<Student> findAll(){
         return studentService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Student findById(@PathVariable String id) throws StudentNotFoundException {
+        return studentService.findById(id);
+    }
+
+    @PostMapping
+    public Student add(@RequestBody Student student,
+                       @RequestParam(name="universityId") Optional<String> universityId,
+                       @RequestParam(name="universityName") Optional<String> universityName) throws UniversityNotFoundException, StudentNotFoundException {
+        studentService.add(student);
+
+        if(universityId.isPresent())
+            studentService.enrollStudentByUniversityId(student, universityId.get());
+        else universityName.ifPresent(s -> studentService.enrollStudentByUniversityName(student, s));
+
+        return student;
+    }
+
+    @PutMapping
+    public Student update(@RequestBody Student student){
+        studentService.update(student);
+        return student;
     }
 }
