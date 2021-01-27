@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UniversityService {
     List<University> findAll();
+    List<University> findAllExcludeLists();
     University findById(String id) throws UniversityNotFoundException;
     University findByName(String name) throws UniversityNotFoundException;
     void add(University university);

@@ -143,14 +143,14 @@ public class DataGenerator {
             }
 
             uni.setFieldsOfStudy(new ArrayList<>());
-            uni.setStudentsList(new ArrayList<>());
+            uni.setStudents(new ArrayList<>());
 
             for(FieldOfStudy f : uniFields){
                 uni.getFieldsOfStudy().add(f.getId());
             }
 
             for(Student s : uniStudents){
-                uni.getStudentsList().add(s.getId());
+                uni.getStudents().add(s.getId());
             }
 
             universityService.update(uni);

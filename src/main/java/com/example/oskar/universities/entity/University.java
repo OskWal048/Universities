@@ -1,5 +1,6 @@
 package com.example.oskar.universities.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,10 +39,12 @@ public class University implements Serializable {
     @JsonProperty("phone")
     private String phone;
 
-    @JsonProperty("studentsList")
-    private List<String> studentsList;
+    @JsonProperty("students")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private List<String> students;
 
     @JsonProperty("fieldsOfStudy")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<String> fieldsOfStudy;
 
     public int hashCode(){

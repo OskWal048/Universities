@@ -24,6 +24,11 @@ public class UniversityServiceImpl implements UniversityService{
     }
 
     @Override
+    public List<University> findAllExcludeLists() {
+        return universityRepository.findAllExcludeLists();
+    }
+
+    @Override
     public University findById(String id) throws UniversityNotFoundException {
         Optional<University> optionalUniversity = universityRepository.findById(id);
         return optionalUniversity.orElseThrow(() -> new UniversityNotFoundException("Could not find university with id: "+id));

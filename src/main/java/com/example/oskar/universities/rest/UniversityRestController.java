@@ -6,6 +6,7 @@ import com.example.oskar.universities.service.UniversityService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/universities")
@@ -18,7 +19,9 @@ public class UniversityRestController {
     }
 
     @GetMapping
-    public List<University> getAllUniversities(){
+    public List<University> getAllUniversities(@RequestParam(name="includeLists") Optional<Boolean> includeLists){
+        if(includeLists.isPresent() && !includeLists.get())
+            return universityService.findAllExcludeLists();
         return universityService.findAll();
     }
 
@@ -40,4 +43,6 @@ public class UniversityRestController {
         universityService.update(university);
         return university;
     }
+
+
 }
