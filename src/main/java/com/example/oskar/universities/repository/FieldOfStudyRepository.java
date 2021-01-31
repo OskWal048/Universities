@@ -8,4 +8,5 @@ import java.util.List;
 public interface FieldOfStudyRepository extends MongoRepository<FieldOfStudy, String> {
     List<FieldOfStudy> findAllByNameOfStudyFieldLike(String nameOfStudyField);
     List<FieldOfStudy> findAllByUniversityId(String universityId);
+    boolean existsById(String id);
 }

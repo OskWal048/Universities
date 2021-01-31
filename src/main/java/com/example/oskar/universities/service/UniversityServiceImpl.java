@@ -2,10 +2,13 @@ package com.example.oskar.universities.service;
 
 import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.entity.University;
+import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.exception.StudentNotFoundException;
 import com.example.oskar.universities.exception.UniversityNotFoundException;
+import com.example.oskar.universities.repository.FieldOfStudyRepository;
 import com.example.oskar.universities.repository.StudentRepository;
 import com.example.oskar.universities.repository.UniversityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,10 +21,12 @@ public class UniversityServiceImpl implements UniversityService{
 
     private final UniversityRepository universityRepository;
     private final StudentRepository studentRepository;
+    private final FieldOfStudyRepository fieldOfStudyRepository;
 
-    public UniversityServiceImpl(UniversityRepository universityRepository, StudentRepository studentRepository) {
+    public UniversityServiceImpl(UniversityRepository universityRepository, StudentRepository studentRepository, FieldOfStudyRepository fieldOfStudyRepository) {
         this.universityRepository = universityRepository;
         this.studentRepository = studentRepository;
+        this.fieldOfStudyRepository = fieldOfStudyRepository;
     }
 
     @Override
@@ -90,6 +95,17 @@ public class UniversityServiceImpl implements UniversityService{
             throw new StudentNotFoundException("Could not find student with id: "+studentId);
 
         students.add(studentId);
+    }
+
+    @Override
+    public void addFieldOfStudy(String universityId, String fieldOfStudyId) throws UniversityNotFoundException, FieldOfStudyNotFoundException {
+        University university = this.findById(universityId);
+        List<String> fieldsOfStudy = university.getFieldsOfStudy();
+
+        if(!fieldOfStudyRepository.existsById(fieldOfStudyId))
+            throw new FieldOfStudyNotFoundException("Could not find field of study with id: "+fieldOfStudyId);
+
+        fieldsOfStudy.add(fieldOfStudyId);
     }
 
     @Override

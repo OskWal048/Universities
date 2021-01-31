@@ -2,6 +2,7 @@ package com.example.oskar.universities.rest;
 
 import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.entity.University;
+import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.exception.StudentNotFoundException;
 import com.example.oskar.universities.exception.UniversityNotFoundException;
 import com.example.oskar.universities.service.UniversityService;
@@ -51,10 +52,14 @@ public class UniversityRestController {
         return university;
     }
 
-    @PatchMapping
-    public void assignStudent(@RequestParam(name="universityId") String universityId, @RequestParam(name="studentId") String studentId) throws UniversityNotFoundException, StudentNotFoundException {
+    @PutMapping("/{universityId}/students")
+    public void assignStudent(@PathVariable String universityId, @RequestParam(name="studentId") String studentId) throws UniversityNotFoundException, StudentNotFoundException {
         universityService.enrollStudentByUniversityId(universityId, studentId);
     }
 
+    @PutMapping("/{universityId}/fieldsOfStudy")
+    public void addFieldOfStudy(@PathVariable String universityId, @RequestParam(name="fieldId") String fieldOfStudyId) throws UniversityNotFoundException, FieldOfStudyNotFoundException {
+        universityService.addFieldOfStudy(universityId, fieldOfStudyId);
+    }
 
 }

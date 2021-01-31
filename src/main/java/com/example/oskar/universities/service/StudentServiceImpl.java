@@ -1,9 +1,12 @@
 package com.example.oskar.universities.service;
 
+import com.example.oskar.universities.entity.FieldOfStudy;
 import com.example.oskar.universities.entity.Student;
+import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.exception.StudentNotFoundException;
-import com.example.oskar.universities.exception.UniversityNotFoundException;
+import com.example.oskar.universities.repository.FieldOfStudyRepository;
 import com.example.oskar.universities.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +16,11 @@ import java.util.Optional;
 public class StudentServiceImpl implements StudentService{
 
     private final StudentRepository studentRepository;
-//    private final UniversityService universityService;
+    private final FieldOfStudyRepository fieldOfStudyRepository;
 
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    public StudentServiceImpl(StudentRepository studentRepository, FieldOfStudyRepository fieldOfStudyRepository) {
         this.studentRepository = studentRepository;
-//        this.universityService = universityService;
+        this.fieldOfStudyRepository = fieldOfStudyRepository;
     }
 
     @Override
@@ -49,15 +52,16 @@ public class StudentServiceImpl implements StudentService{
         studentRepository.save(student);
     }
 
-//    @Override
-//    public void enrollStudentByUniversityId(Student student, String universityId) throws UniversityNotFoundException, StudentNotFoundException {
-////        universityService.enrollStudentByUniversityId(universityId, student.getId());
-//    }
-//
-//    @Override
-//    public void enrollStudentByUniversityName(Student student, String universityName) throws UniversityNotFoundException, StudentNotFoundException {
-////        universityService.enrollStudentByUniversityName(universityName, student.getId());
-//    }
+    @Override
+    public void enrollStudentInFieldOfStudy(String studentId, String fieldOfStudyId) throws FieldOfStudyNotFoundException, StudentNotFoundException {
+        if(!fieldOfStudyRepository.existsById(fieldOfStudyId))
+            throw new FieldOfStudyNotFoundException("Could not find field of study with id: "+fieldOfStudyId);
+
+        Student student = this.findById(studentId);
+        List<String> fieldsOfStudy = student.getFieldsOfStudy();
+
+        fieldsOfStudy.add(fieldOfStudyId);
+    }
 
     @Override
     public void deleteById(String id) {

@@ -2,6 +2,7 @@ package com.example.oskar.universities.service;
 
 import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.entity.University;
+import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.exception.StudentNotFoundException;
 import com.example.oskar.universities.exception.UniversityNotFoundException;
 
@@ -17,5 +18,6 @@ public interface UniversityService {
     void update(University university);
     void enrollStudentByUniversityId(String universityId, String studentId) throws UniversityNotFoundException, StudentNotFoundException;
     void enrollStudentByUniversityName(String universityName, String studentId) throws UniversityNotFoundException, StudentNotFoundException;
+    void addFieldOfStudy(String universityId, String fieldOfStudyId) throws UniversityNotFoundException, FieldOfStudyNotFoundException;
     void deleteById(String id);
 }

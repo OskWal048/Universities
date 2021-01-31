@@ -1,9 +1,12 @@
 package com.example.oskar.universities.rest;
 
 import com.example.oskar.universities.entity.Student;
+import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.exception.StudentNotFoundException;
 import com.example.oskar.universities.exception.UniversityNotFoundException;
 import com.example.oskar.universities.service.StudentService;
+import com.example.oskar.universities.service.UniversityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +17,11 @@ import java.util.Optional;
 public class StudentRestController {
 
     private final StudentService studentService;
+    private final UniversityService universityService;
 
-    public StudentRestController(StudentService studentService) {
+    public StudentRestController(StudentService studentService, UniversityService universityService) {
         this.studentService = studentService;
+        this.universityService = universityService;
     }
 
     @GetMapping
@@ -35,10 +40,10 @@ public class StudentRestController {
                        @RequestParam(name="universityName") Optional<String> universityName) throws UniversityNotFoundException, StudentNotFoundException {
         studentService.add(student);
 
-//        if(universityId.isPresent())
-//            studentService.enrollStudentByUniversityId(student, universityId.get());
-//        else if(universityName.isPresent())
-//            studentService.enrollStudentByUniversityName(student, universityName.get());
+        if(universityId.isPresent())
+            universityService.enrollStudentByUniversityId(universityId.get(), student.getId());
+        else if(universityName.isPresent())
+            universityService.enrollStudentByUniversityName(universityName.get(), student.getId());
 
         return student;
     }
@@ -47,5 +52,10 @@ public class StudentRestController {
     public Student update(@RequestBody Student student){
         studentService.update(student);
         return student;
+    }
+
+    @PutMapping("/{studentId}/fieldsOfStudy")
+    public void enrollStudentInFieldOfStudy(@PathVariable String studentId, @RequestParam(name="fieldId") String fieldOfStudyId) throws FieldOfStudyNotFoundException, StudentNotFoundException {
+        studentService.enrollStudentInFieldOfStudy(studentId, fieldOfStudyId);
     }
 }
