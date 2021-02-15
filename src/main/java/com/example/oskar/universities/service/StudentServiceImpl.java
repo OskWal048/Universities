@@ -9,6 +9,7 @@ import com.example.oskar.universities.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,18 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public void update(Student student) {
         studentRepository.save(student);
+    }
+
+    @Override
+    public List<FieldOfStudy> findStudentFieldsOfStudy(String studentId) throws StudentNotFoundException, FieldOfStudyNotFoundException {
+        List<FieldOfStudy> fields = new ArrayList<>();
+        Student student = findById(studentId);
+
+        for(String fieldId : student.getFieldsOfStudy()){
+            fields.add(fieldOfStudyRepository.findById(fieldId).orElseThrow(() -> new FieldOfStudyNotFoundException("Could not find Field Of Study with id: "+fieldId)));
+        }
+
+        return fields;
     }
 
     @Override

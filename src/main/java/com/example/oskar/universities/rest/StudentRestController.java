@@ -1,5 +1,6 @@
 package com.example.oskar.universities.rest;
 
+import com.example.oskar.universities.entity.FieldOfStudy;
 import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.exception.StudentNotFoundException;
@@ -52,6 +53,11 @@ public class StudentRestController {
     public Student update(@RequestBody Student student){
         studentService.update(student);
         return student;
+    }
+
+    @GetMapping("/{studentId}/fieldsOfStudy")
+    public List<FieldOfStudy> findStudentFieldsOfStudy(@PathVariable String studentId) throws FieldOfStudyNotFoundException, StudentNotFoundException {
+        return studentService.findStudentFieldsOfStudy(studentId);
     }
 
     @PutMapping("/{studentId}/fieldsOfStudy")
