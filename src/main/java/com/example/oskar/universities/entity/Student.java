@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "students")
@@ -48,6 +49,13 @@ public class Student {
 
     @JsonProperty("grades")
     private List<Grade> grades;
+
+    public List<String> getFieldsOfStudy(){
+        if(fieldsOfStudy == null)
+            fieldsOfStudy = new ArrayList<>();
+
+        return fieldsOfStudy;
+    }
 
     public double getAverageGrade() {
 

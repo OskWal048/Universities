@@ -1,8 +1,11 @@
 package com.example.oskar.universities.service;
 
 import com.example.oskar.universities.entity.FieldOfStudy;
+import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.repository.FieldOfStudyRepository;
+import com.example.oskar.universities.repository.StudentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +15,11 @@ import java.util.Optional;
 public class FieldOfStudyServiceImpl implements FieldOfStudyService{
 
     private final FieldOfStudyRepository fieldOfStudyRepository;
+    private final StudentRepository studentRepository;
 
-    public FieldOfStudyServiceImpl(FieldOfStudyRepository fieldOfStudyRepository) {
+    public FieldOfStudyServiceImpl(FieldOfStudyRepository fieldOfStudyRepository, StudentRepository studentRepository) {
         this.fieldOfStudyRepository = fieldOfStudyRepository;
+        this.studentRepository = studentRepository;
     }
 
     @Override
@@ -36,6 +41,11 @@ public class FieldOfStudyServiceImpl implements FieldOfStudyService{
     @Override
     public List<FieldOfStudy> findByName(String name) {
         return fieldOfStudyRepository.findAllByNameOfStudyFieldLike(name);
+    }
+
+    @Override
+    public List<Student> findStudentsByFieldId(String fieldId) {
+        return studentRepository.findByFieldsOfStudyContaining(fieldId);
     }
 
     @Override
