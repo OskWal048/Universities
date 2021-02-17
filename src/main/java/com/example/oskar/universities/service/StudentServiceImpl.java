@@ -1,6 +1,7 @@
 package com.example.oskar.universities.service;
 
 import com.example.oskar.universities.entity.FieldOfStudy;
+import com.example.oskar.universities.entity.Grade;
 import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.exception.StudentNotFoundException;
@@ -51,6 +52,21 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public void update(Student student) {
         studentRepository.save(student);
+    }
+
+    @Override
+    public List<Grade> getGradesById(String studentId) throws StudentNotFoundException {
+        return findById(studentId).getGrades();
+    }
+
+    @Override
+    public void addGrade(String studentId, Grade grade) throws StudentNotFoundException, FieldOfStudyNotFoundException {
+        Student student = findById(studentId);
+        if(!fieldOfStudyRepository.existsById(grade.getFieldOfStudy())){
+            throw new FieldOfStudyNotFoundException("Could not find Field of Study with id: " + grade.getFieldOfStudy());
+        }
+
+        student.getGrades().add(grade);
     }
 
     @Override

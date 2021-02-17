@@ -61,7 +61,7 @@ public class Student {
 
         this.setAverageGrade(calculateAverageGrade());
 
-        return averageGrade;
+        return Math.round(averageGrade * 100.0)/100.0;
     }
 
     public void setAverageGrade(double averageGrade){
