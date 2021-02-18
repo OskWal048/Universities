@@ -1,5 +1,6 @@
 package com.example.oskar.universities.rest;
 
+import com.example.oskar.universities.dto.UniversityStats;
 import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.entity.University;
 import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
@@ -60,6 +61,11 @@ public class UniversityRestController {
     @PutMapping("/{universityId}/fieldsOfStudy")
     public void addFieldOfStudy(@PathVariable String universityId, @RequestParam(name="fieldId") String fieldOfStudyId) throws UniversityNotFoundException, FieldOfStudyNotFoundException {
         universityService.addFieldOfStudy(universityId, fieldOfStudyId);
+    }
+
+    @GetMapping("{universityId}/stats")
+    public UniversityStats getStats(@PathVariable String universityId) throws UniversityNotFoundException {
+        return universityService.getStats(universityId);
     }
 
 }

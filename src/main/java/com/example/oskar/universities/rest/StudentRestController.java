@@ -8,7 +8,6 @@ import com.example.oskar.universities.exception.StudentNotFoundException;
 import com.example.oskar.universities.exception.UniversityNotFoundException;
 import com.example.oskar.universities.service.StudentService;
 import com.example.oskar.universities.service.UniversityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +26,13 @@ public class StudentRestController {
     }
 
     @GetMapping
-    public List<Student> findAll(){
-        return studentService.findAll();
+    public List<Student> findAll(@RequestParam(name= "minAge") Optional<Integer> optionalMinAge,
+                                 @RequestParam(name= "maxAge") Optional<Integer> optionalMaxAge,
+                                 @RequestParam(name= "gender") Optional<Student.Gender> optionalGender,
+                                 @RequestParam(name= "status") Optional<Student.StudentStatus> optionalStatus,
+                                 @RequestParam(name= "minAvgGrade") Optional<Double> optionalMinAvgGrade,
+                                 @RequestParam(name= "maxAvgGrade") Optional<Double> optionalMaxAvgGrade){
+        return studentService.findAll(optionalMinAge, optionalMaxAge, optionalGender, optionalStatus, optionalMinAvgGrade, optionalMaxAvgGrade);
     }
 
     @GetMapping("/{id}")

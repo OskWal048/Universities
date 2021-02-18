@@ -1,5 +1,6 @@
 package com.example.oskar.universities.service;
 
+import com.example.oskar.universities.dto.UniversityStats;
 import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.entity.University;
 import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
@@ -20,4 +21,5 @@ public interface UniversityService {
     void enrollStudentByUniversityName(String universityName, String studentId) throws UniversityNotFoundException, StudentNotFoundException;
     void addFieldOfStudy(String universityId, String fieldOfStudyId) throws UniversityNotFoundException, FieldOfStudyNotFoundException;
     void deleteById(String id);
+    UniversityStats getStats(String universityId) throws UniversityNotFoundException;
 }

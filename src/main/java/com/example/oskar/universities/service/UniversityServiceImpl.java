@@ -1,5 +1,6 @@
 package com.example.oskar.universities.service;
 
+import com.example.oskar.universities.dto.UniversityStats;
 import com.example.oskar.universities.entity.Student;
 import com.example.oskar.universities.entity.University;
 import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
@@ -111,5 +112,36 @@ public class UniversityServiceImpl implements UniversityService{
     @Override
     public void deleteById(String id) {
         universityRepository.deleteById(id);
+    }
+
+    @Override
+    public UniversityStats getStats(String universityId) throws UniversityNotFoundException {
+        University university = findById(universityId);
+        UniversityStats stats = new UniversityStats();
+
+        List<Student> students = findStudentsFromUniversity(universityId);
+
+        int numberOfStudents = students.size();
+        int numberOfFieldsOfStudy = university.getFieldsOfStudy().size();
+        int numberOfFemaleStudents = (int) students.parallelStream().filter(s -> s.getGender().equals(Student.Gender.FEMALE)).count();
+        int numberOfMaleStudents = (int) students.parallelStream().filter(s -> s.getGender().equals(Student.Gender.MALE)).count();
+        int numberOfActiveStudents = (int) students.parallelStream().filter(s -> s.getStudentStatus().equals(Student.StudentStatus.ACTIVE)).count();
+        int numberOfInactiveStudents = (int) students.parallelStream().filter(s -> s.getStudentStatus().equals(Student.StudentStatus.INACTIVE)).count();
+        int numberOfSuspendedStudents = (int) students.parallelStream().filter(s -> s.getStudentStatus().equals(Student.StudentStatus.SUSPENDED)).count();
+        int numberOfStudentsOnDeansLeave = (int) students.parallelStream().filter(s -> s.getStudentStatus().equals(Student.StudentStatus.DEANS_LEAVE)).count();
+
+        stats.setId(universityId).setName(university.getName())
+                .setAdditionDate(university.getAdditionDate()).setAddress(university.getAddress())
+                .setEmail(university.getEmail()).setPhone(university.getPhone())
+                .setNumberOfFieldsOfStudy(numberOfFieldsOfStudy)
+                .setNumberOfStudents(numberOfStudents)
+                .setNumberOfFemaleStudents(numberOfFemaleStudents)
+                .setNumberOfMaleStudents(numberOfMaleStudents)
+                .setNumberOfActiveStudents(numberOfActiveStudents)
+                .setNumberOfInactiveStudents(numberOfInactiveStudents)
+                .setNumberOfSuspendedStudents(numberOfSuspendedStudents)
+                .setNumberOfStudentsOnDeansLeave(numberOfStudentsOnDeansLeave);
+
+        return stats;
     }
 }

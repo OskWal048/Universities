@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -26,8 +27,24 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public List<Student> findAll() {
-        return studentRepository.findAll();
+    public List<Student> findAll(Optional<Integer> optionalMinAge, Optional<Integer> optionalMaxAge, Optional<Student.Gender> optionalGender, Optional<Student.StudentStatus> optionalStatus, Optional<Double> optionalMinAvgGrade, Optional<Double> optionalMaxAvgGrade) {
+
+        List<Student> students = studentRepository.findAll();
+
+        if(optionalMinAge.isPresent())
+            students = students.parallelStream().filter(s -> s.getAge() >= optionalMinAge.get()).collect(Collectors.toList());
+        if(optionalMaxAge.isPresent())
+            students = students.parallelStream().filter(s -> s.getAge() <= optionalMaxAge.get()).collect(Collectors.toList());
+        if(optionalGender.isPresent())
+            students = students.parallelStream().filter(s -> s.getGender().equals(optionalGender.get())).collect(Collectors.toList());
+        if(optionalStatus.isPresent())
+            students = students.parallelStream().filter(s -> s.getStudentStatus().equals(optionalStatus.get())).collect(Collectors.toList());
+        if(optionalMinAvgGrade.isPresent())
+            students = students.parallelStream().filter(s -> s.getAverageGrade() >= optionalMinAvgGrade.get()).collect(Collectors.toList());
+        if(optionalMaxAvgGrade.isPresent())
+            students = students.parallelStream().filter(s -> s.getAverageGrade() <= optionalMaxAvgGrade.get()).collect(Collectors.toList());
+
+        return students;
     }
 
     @Override

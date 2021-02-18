@@ -7,9 +7,11 @@ import com.example.oskar.universities.exception.FieldOfStudyNotFoundException;
 import com.example.oskar.universities.exception.StudentNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StudentService {
-    List<Student> findAll();
+    List<Student> findAll(Optional<Integer> optionalMinAge, Optional<Integer> optionalMaxAge, Optional<Student.Gender> optionalGender,
+                          Optional<Student.StudentStatus> optionalStatus, Optional<Double> optionalMinAvgGrade, Optional<Double> optionalMaxAvgGrade);
     Student findById(String id) throws StudentNotFoundException;
     boolean checkIfStudentExists(String id) throws StudentNotFoundException;
     void add(Student student);
